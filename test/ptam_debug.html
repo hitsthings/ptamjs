@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Debug PTAM.js</title>
+        <style>
+            #pose-log li {
+                white-space: pre;
+                list-style: none;
+            }
+        </style>
+    </head>
+    <body>
+
+        <script src="/socket.io/socket.io.js"></script>
+
+        <div>fps: <span id="fps"></span></div>
+        <script>var fpsEl =  document.getElementById('fps');
+        function setFps(fps) {
+            fpsEl.textContent = fps;
+        }</script>
+
+        <h2>grayscale output</h2>
+        <canvas height="150" width="300"></canvas>
+        <script>
+            var canvas = document.getElementsByTagName('canvas')[0];
+            var ctx = canvas.getContext('2d');
+            function setImageData(data) {
+                var imageData = ctx.createImageData(data.width, data.height);
+                var i = data.data.length;
+                if (data.grayscale) {
+                    while (i--) {
+                        var j = i * 4;
+                        imageData.data[j    ] = data.data[i];
+                        imageData.data[j + 1] = data.data[i];
+                        imageData.data[j + 2] = data.data[i];
+                        imageData.data[j + 3] = 255;
+                    }
+                } else {
+                    while (i--) imageData.data[i] = data.data[i];
+                }
+                ctx.putImageData(imageData, 0, 0);
+            }
+        </script>
+
+        <h2>pose log</h2>
+        <ul id="pose-log">
+        </ul>
+        <script src="https://raw.github.com/einars/js-beautify/master/beautify.js"></script>
+        <script>
+            var poseLog = document.getElementById('pose-log');
+            var lines = 0;
+            function addPoseLog(o) {
+                if (typeof o !== 'string') o = JSON.stringify(o);
+                o =  js_beautify(o);
+                var li = document.createElement('li');
+                li.textContent = o;
+                poseLog.appendChild(li);
+                lines++;
+                if (lines > 10) {
+                    poseLog.removeChild(poseLog.firstChild);
+                }
+            }
+        </script>
+
+        <script>
+          var socket = io.connect(location.href);
+          socket.on('noGrayscale', function () { canvas.style.display = 'none'; });
+          socket.on('noPose', function () { poseLog.style.display = 'none'; });
+          socket.on('grayscale', setImageData);
+          socket.on('pose', addPoseLog)
+          socket.on('fps', setFps);
+        </script>
+    </body>
+</html>

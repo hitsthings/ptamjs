@@ -1,0 +1,45 @@
+{
+  "name": "ptam",
+  "description": "Parallel Tracking and Mapping in JS",
+  "version": "0.1.0",
+  "homepage": "https://github.com/hitsthings/ptam",
+  "author": {
+    "name": "Adam Ahmed",
+    "email": "hitsthings@gmail.com",
+    "url": "http://www.noiregrets.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hitsthings/ptam.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hitsthings/ptam/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/hitsthings/ptam/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "lib/ptam",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "jsfeat": "0.0.4"
+  },
+  "devDependencies": {
+    "grunt-concat": "~0.1.6",
+    "browsercam" : "latest",
+    "png-js" : "latest",
+    "express" : "latest",
+    "socket.io" : "latest"
+  },
+  "globalDevDependencies": {
+    "grunt": "~0.3.17"
+  },
+  "keywords": []
+}
